@@ -1,0 +1,29 @@
+Here are the defaults for various parameters used by NEURON.
+
+initial membrane potential [mV]
+    -65.0
+temperatue [K]
+    6.3 + 273.15
+axial resistivity [Ω·cm]
+    35.4
+membrane capacitance [F/m²]
+    0.01
+ions
+    na::internal-concentration [mM]
+            10.0
+    na::external-concentration [mM]
+            140.0
+    na::reversal-potential [mV]
+            115 - 65 = 50
+    k::internal-concentration [mM]
+            54.4
+    k::external-concentration [mM]
+            2.5
+    k::reversal-potential [mV]
+            -12 - 65 = -77
+    ca::internal-concentration [mM]
+            5e-5
+    ca::external-concentration [mM]
+            2.0
+    ca::reversal-potential [mV]
+            12.5*log(2.0/5e-5) = 132.4579341637009
