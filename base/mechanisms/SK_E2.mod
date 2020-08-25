@@ -2,55 +2,48 @@
 : Reference : Kohler et al. 1996
 
 NEURON {
-       SUFFIX SK_E2
-       USEION k READ ek WRITE ik
-       USEION ca READ cai
-       RANGE gSK_E2bar, gSK_E2, ik
+    SUFFIX SK_E2
+    USEION k READ ek WRITE ik
+    USEION ca READ cai
+    RANGE gSK_E2bar
 }
 
 UNITS {
-      (mV) = (millivolt)
-      (mA) = (milliamp)
-      (mM) = (milli/liter)
+    (mV) = (millivolt)
+    (mA) = (milliamp)
+    (mM) = (milli/liter)
 }
 
 PARAMETER {
-          v            (mV)
-          gSK_E2bar = .000001 (mho/cm2)
-          zTau = 1              (ms)
-          ek           (mV)
-          cai          (mM)
-}
-
-ASSIGNED {
-         zInf
-         ik            (mA/cm2)
-         gSK_E2	       (S/cm2)
+    gSK_E2bar = 0.000001 (mho/cm2)
+    zTau      = 1        (ms)
 }
 
 STATE {
-      z   FROM 0 TO 1
+    z FROM 0 TO 1
 }
 
 BREAKPOINT {
-           SOLVE states METHOD cnexp
-           gSK_E2  = gSK_E2bar * z
-           ik   =  gSK_E2 * (v - ek)
+    SOLVE states METHOD cnexp
+    ik = gSK_E2bar*z*(v - ek)
 }
 
 DERIVATIVE states {
-        rates(cai)
-        z' = (zInf - z) / zTau
-}
+    LOCAL ca, zInf
+    ca = cai
+    if (ca < 1e-7) {
+            ca = ca + 1e-07
+    }
+    zInf =  1/(1 + (0.00043/ca)^4.8)
 
-PROCEDURE rates(ca(mM)) {
-          if(ca < 1e-7){
-	              ca = ca + 1e-07
-          }
-          zInf = 1/(1 + (0.00043 / ca)^4.8)
+    z' = (zInf - z)/zTau
 }
 
 INITIAL {
-        rates(cai)
-        z = zInf
+    LOCAL ca
+    ca = cai
+    if (ca < 1e-7) {
+            ca = ca + 1e-07
+    }
+    z =  1/(1 + (0.00043/ca)^4.8)
 }

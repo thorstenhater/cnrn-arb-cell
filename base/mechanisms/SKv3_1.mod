@@ -1,55 +1,41 @@
-:Comment :
-:Reference : :		Characterization of a Shaw-related potassium channel family in rat brain, The EMBO Journal, vol.11, no.7,2473-2486 (1992)
+:Reference  Characterization of a Shaw-related potassium channel family in rat brain, The EMBO Journal, vol.11, no.7,2473-2486 (1992)
 
-NEURON	{
-	SUFFIX SKv3_1
-	USEION k READ ek WRITE ik
-	RANGE gSKv3_1bar, gSKv3_1, ik 
+NEURON {
+    SUFFIX SKv3_1
+    USEION k READ ek WRITE ik
+    RANGE gSKv3_1bar
 }
 
-UNITS	{
-	(S) = (siemens)
-	(mV) = (millivolt)
-	(mA) = (milliamp)
+UNITS    {
+    (S)  = (siemens)
+    (mV) = (millivolt)
+    (mA) = (milliamp)
 }
 
-PARAMETER	{
-	gSKv3_1bar = 0.00001 (S/cm2) 
+PARAMETER {
+    gSKv3_1bar = 0.00001 (S/cm2) 
 }
 
-ASSIGNED	{
-	v	(mV)
-	ek	(mV)
-	ik	(mA/cm2)
-	gSKv3_1	(S/cm2)
-	mInf
-	mTau
+STATE { 
+    m
 }
 
-STATE	{ 
-	m
+BREAKPOINT {
+    SOLVE states METHOD cnexp
+    ik = gSKv3_1bar*m*(v - ek)
 }
 
-BREAKPOINT	{
-	SOLVE states METHOD cnexp
-	gSKv3_1 = gSKv3_1bar*m
-	ik = gSKv3_1*(v-ek)
+DERIVATIVE states {
+    LOCAL mInf, mRho
+    
+    mInf = 1/(1 + exp((18.7 - v)/9.7))
+    mRho = 0.25*(1 + exp((v + 46.56)/44.140))
+
+    m' = (mInf - m)*mRho
 }
 
-DERIVATIVE states	{
-	rates()
-	m' = (mInf-m)/mTau
+INITIAL {
+    m = 1/(1 + exp((18.7 - v)/9.7))
 }
 
-INITIAL{
-	rates()
-	m = mInf
-}
-
-PROCEDURE rates(){
-	UNITSOFF
-		mInf =  1/(1+exp(((v -(18.700))/(-9.700))))
-		mTau =  0.2*20.000/(1+exp(((v -(-46.560))/(-44.140))))
-	UNITSON
-}
 
