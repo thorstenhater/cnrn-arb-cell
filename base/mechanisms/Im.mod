@@ -1,48 +1,61 @@
-: Reference: Adams et al. 1982 - M-currents and other potassium currents in bullfrog sympathetic neurones
-: Comment:   corrected rates using q10 = 2.3, target temperature 34, orginal 21
+:Reference : :		Adams et al. 1982 - M-currents and other potassium currents in bullfrog sympathetic neurones
+:Comment: corrected rates using q10 = 2.3, target temperature 34, orginal 21
 
-NEURON {
-    SUFFIX Im
-    USEION k READ ek WRITE ik
-    RANGE gImbar
+NEURON	{
+	SUFFIX Im
+	USEION k READ ek WRITE ik
+	RANGE gImbar, gIm, ik
 }
 
-UNITS {
-    (S) = (siemens)
-    (mV) = (millivolt)
-    (mA) = (milliamp)
+UNITS	{
+	(S) = (siemens)
+	(mV) = (millivolt)
+	(mA) = (milliamp)
 }
 
-PARAMETER {
-    gImbar = 0.00001 (S/cm2)
+PARAMETER	{
+	gImbar = 0.00001 (S/cm2) 
 }
 
-STATE {
-    m
+ASSIGNED	{
+	v	(mV)
+	ek	(mV)
+	ik	(mA/cm2)
+	gIm	(S/cm2)
+	mInf
+	mTau
+	mAlpha
+	mBeta
 }
 
-BREAKPOINT {
-    SOLVE states METHOD cnexp
-    ik = gImbar*m*(v - ek)
+STATE	{ 
+	m
 }
 
-DERIVATIVE states {
-    LOCAL qt, mAlpha, mBeta
-
-    qt     = 2.3^((34-21)/10)
-    mAlpha = 3.3e-3*exp( 2.5*0.04*(v + 35))
-    mBeta  = 3.3e-3*exp(-2.5*0.04*(v + 35))
-
-    : NB: Here the identity below does not help :/
-    m'     = qt*(mAlpha - m*(mAlpha + mBeta))
+BREAKPOINT	{
+	SOLVE states METHOD cnexp
+	gIm = gImbar*m
+	ik = gIm*(v-ek)
 }
 
-INITIAL {
-    LOCAL mAlpha, mBeta
+DERIVATIVE states	{
+	rates()
+	m' = (mInf-m)/mTau
+}
 
-    mAlpha = 3.3e-3*exp( 2.5*0.04*(v + 35))
-    mBeta  = 3.3e-3*exp(-2.5*0.04*(v + 35))
+INITIAL{
+	rates()
+	m = mInf
+}
 
-    : NB: this is e^x/(e^x + e^-x) = 1/(1 + e^-2x), might be faster, but for one call idc :shrug:
-    m = mAlpha/(mAlpha + mBeta)
+PROCEDURE rates(){
+  LOCAL qt
+  qt = 2.3^((34-21)/10)
+
+	UNITSOFF
+		mAlpha = 3.3e-3*exp(2.5*0.04*(v - -35))
+		mBeta = 3.3e-3*exp(-2.5*0.04*(v - -35))
+		mInf = mAlpha/(mAlpha + mBeta)
+		mTau = (1/(mAlpha + mBeta))/qt
+	UNITSON
 }

@@ -1,53 +1,75 @@
 NEURON  {
     SUFFIX NaTa_t
     USEION na READ ena WRITE ina
-    RANGE gNaTa_tbar
+    RANGE gNaTa_tbar, gNaTa_t, ina
 }
 
-UNITS {
-    (S)  = (siemens)
+UNITS   {
+    (S) = (siemens)
     (mV) = (millivolt)
     (mA) = (milliamp)
 }
 
-PARAMETER {
+PARAMETER   {
     gNaTa_tbar = 0.00001 (S/cm2)
 }
 
-STATE {
+ASSIGNED    {
+    v   (mV)
+    ena (mV)
+    ina (mA/cm2)
+    gNaTa_t (S/cm2)
+    mInf
+    mTau
+    mAlpha
+    mBeta
+    hInf
+    hTau
+    hAlpha
+    hBeta
+}
+
+STATE   {
     m
     h
 }
 
-BREAKPOINT {
+BREAKPOINT  {
     SOLVE states METHOD cnexp
-    ina = gNaTa_tbar*m*m*m*h*(v-ena)
+    gNaTa_t = gNaTa_tbar*m*m*m*h
+    ina = gNaTa_t*(v-ena)
 }
 
-DERIVATIVE states {
-    LOCAL qt, mAlpha, mBeta, mRate, hAlpha, hBeta, hRate
+DERIVATIVE states   {
+    rates()
+    m' = (mInf-m)/mTau
+    h' = (hInf-h)/hTau
+}
+
+INITIAL{
+    rates()
+    m = mInf
+    h = hInf
+}
+
+PROCEDURE rates(){
+    LOCAL qt
     qt = 2.3^((34-21)/10)
 
-    mAlpha = -0.182*6*exprelr(-(v + 38)/6)
-    mBeta  = -0.124*6*exprelr( (v + 38)/6)
-    mRate  = mAlpha + mBeta
+    if(v == -38){
+        v = v+0.0001
+    }
+    mAlpha = (0.182 * (v- -38))/(1-(exp(-(v- -38)/6)))
+    mBeta  = (0.124 * (-v -38))/(1-(exp(-(-v -38)/6)))
+    mTau = (1/(mAlpha + mBeta))/qt
+    mInf = mAlpha/(mAlpha + mBeta)
 
-    hAlpha = -0.015*6*exprelr( (v + 66)/6)
-    hBeta  = -0.015*6*exprelr(-(v + 66)/6)
-    hRate  = hAlpha + hBeta
+    if(v == -66){
+        v = v + 0.0001
+    }
 
-    m' = qt*(mAlpha - m*mRate)
-    h' = qt*(hAlpha - h*hRate)
-}
-
-INITIAL {
-     LOCAL mAlpha, mBeta, hAlpha, hBeta
-							 
-    mAlpha = -0.182*6*exprelr(-(v + 38)/6)
-    mBeta  = -0.124*6*exprelr( (v + 38)/6)
-    m      = mAlpha/(mAlpha + mBeta)
-
-    hAlpha = -0.015*6*exprelr( (v + 66)/6)
-    hBeta  = -0.015*6*exprelr(-(v + 66)/6)
-    h      = hAlpha/(hAlpha + hBeta)
+    hAlpha = (-0.015 * (v- -66))/(1-(exp((v- -66)/6)))
+    hBeta  = (-0.015 * (-v -66))/(1-(exp((-v -66)/6)))
+    hTau = (1/(hAlpha + hBeta))/qt
+    hInf = hAlpha/(hAlpha + hBeta)
 }
