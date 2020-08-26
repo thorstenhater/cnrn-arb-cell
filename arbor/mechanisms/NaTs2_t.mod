@@ -31,13 +31,13 @@ DERIVATIVE states {
     LOCAL qt, mAlpha, mBeta, mRate, hAlpha, hBeta, hRate
     
     qt = 2.3^((34-21)/10)
-    
-    mAlpha = -0.182*6*exprelr(-(v + 32)/6)
-    mBeta  = -0.124*6*exprelr( (v + 32)/6)
+
+    mAlpha = m_alpha(v)
+    mBeta  = m_beta(v)
     mRate  = mAlpha + mBeta
     
-    hAlpha = -0.015*6*exprelr( (v + 60)/6)
-    hBeta  = -0.015*6*exprelr(-(v + 60)/6)
+    hAlpha = m_alpha(v)
+    hBeta  = h_beta(v)
     hRate  = hAlpha + hBeta
     
     m' = qt*(mAlpha - m*mRate)
@@ -47,11 +47,25 @@ DERIVATIVE states {
 INITIAL {
     LOCAL mAlpha, mBeta, hAlpha, hBeta
     
-    mAlpha = -0.182*6*exprelr(-(v + 32)/6)
-    mBeta  = -0.124*6*exprelr( (v + 32)/6)
+    mAlpha = m_alpha(v)
+    mBeta  = m_beta(v)
     m      = mAlpha/(mAlpha + mBeta)
 
-    hAlpha = -0.015*6*exprelr( (v + 60)/6)
-    hBeta  = -0.015*6*exprelr(-(v + 60)/6)
+    hAlpha = m_alpha(v)
+    hBeta  = h_beta(v)
     h      = hAlpha/(hAlpha + hBeta)
 }
+
+FUNCTION m_alpha(v) {
+    m_alpha = -0.182*6*exprelr(-(v + 32)/6)
+}
+FUNCTION h_alpha(v) {
+    h_alpha = -0.015*6*exprelr( (v + 60)/6)
+}
+FUNCTION m_beta(v) {
+    m_beta = -0.124*6*exprelr( (v + 32)/6)
+}
+FUNCTION h_beta(v) {
+    h_beta =-0.015*6*exprelr(-(v + 60)/6)
+}
+

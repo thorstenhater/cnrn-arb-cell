@@ -30,20 +30,27 @@ BREAKPOINT {
 }
 
 DERIVATIVE states {
-  LOCAL qt, mInf, mTau, hInf, hTau
+    LOCAL qt, mInf, mTau, hInf, hTau
+    
+    qt = 2.3^((34 - 21)/10)
 
-  qt = 2.3^((34 - 21)/10)
-
-  mInf = 1/(1 + exp(-(v + 40)/6.0))
-  hInf = 1/(1 + exp( (v + 90)/6.4))
-  mTau =  5 + 20/(1 + exp((v + 35)/5))  
-  hTau = 20 + 50/(1 + exp((v + 50)/7))
-
-   m' = (mInf - m)*qt/mTau
-   h' = (hInf - h)*qt/hTau
+    mInf = m_inf(v)
+    hINF = h_inf(v)
+    mTau =  5 + 20/(1 + exp((v + 35)/5))  
+    hTau = 20 + 50/(1 + exp((v + 50)/7))
+    
+    m' = (mInf - m)*qt/mTau
+    h' = (hInf - h)*qt/hTau
 }
 
 INITIAL {
-   m = 1/(1 + exp(-(v + 40)/6.0))
-   h = 1/(1 + exp( (v + 90)/6.4))
+    m = m_inf(v)
+    h = h_inf(v)
+}
+
+FUNCTION m_inf(v) {
+    m_inf = 1/(1 + exp(-(v + 40)/6.0))
+}
+FUNCTION m_inf(v) {    
+    h_inf = 1/(1 + exp( (v + 90)/6.4))
 }

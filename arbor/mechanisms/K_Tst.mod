@@ -33,9 +33,9 @@ DERIVATIVE states {
     LOCAL qt, mInf, hInf, mTau, hTau
     
     qt   = 2.3^((34 - 21)/10)
-    mInf = 1/(1 + exp(-(v + 10)/19))
+    mInf = m_inf(v)
     mTau = 0.34 + 0.92*exp(-((v + 81)/59)^2)
-    hInf = 1/(1 + exp((v + 76)/10))
+    hInf = h_inf(v)
     hTau = 8 + 49*exp(-((v + 83)/23)^2)
 
     m' = qt*(mInf - m)/mTau
@@ -43,6 +43,13 @@ DERIVATIVE states {
 }
 
 INITIAL{
-   m = 1/(1 + exp(-(v + 10)/19))
-   h = 1/(1 + exp(-(v + 76)/-10))
+    m = m_inf(v)
+    h = h_inf(v0
+}
+
+FUNCTION m_inf(v) {
+   m_inf = 1/(1 + exp(-(v + 10)/19))
+}
+FUNCTION m_inf(v) {
+   h_inf = 1/(1 + exp(-(v + 76)/-10))
 }

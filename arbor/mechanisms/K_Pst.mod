@@ -20,13 +20,6 @@ PARAMETER {
     gK_Pstbar = 0.00001 (S/cm2)
 }
 
-ASSIGNED {
-    mInf
-    mTau
-    hInf
-    hTau
-}
-
 STATE {
     m
     h
@@ -41,20 +34,27 @@ DERIVATIVE states {
     LOCAL qt
     qt = 2.3^((34-21)/10)
   
-    mInf = 1/(1 + exp(-(v + 11)/12))
+    mInf = m_inf(v)
     if (v < -60){
         mTau = 1.25 + 175.03*exp( (v + 10)*0.026)
     } else {
         mTau = 1.25 +  13.00*exp(-(v + 10)*0.026)
     }
-    hInf =  1/(1 + exp((v + 64)/11))
-    hTau =  360 + (1010 + 24*(v + 65))*exp(-((v + 85)/48)^2)
+    hInf = h_inf(v)
+    hTau = 360 + (1010 + 24*(v + 65))*exp(-((v + 85)/48)^2)
 
     m' = qt*(mInf - m)/mTau
     h' = qt*(hInf - h)/hTau
 }
 
 INITIAL {
-    m = 1/(1 + exp(-(v + 11)/12))
-    h = 1/(1 + exp( (v + 64)/11))
+    m = m_inf(v)
+    h = h_inf(v)
+}
+
+FUNCTION m_inf(v) {
+    m_inf = 1/(1 + exp(-(v + 11)/12))
+}
+FUNCTION h_inf(v) {
+    h_inf = 1/(1 + exp( (v + 64)/11))
 }

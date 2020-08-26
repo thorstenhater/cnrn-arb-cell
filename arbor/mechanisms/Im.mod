@@ -30,19 +30,24 @@ DERIVATIVE states {
     LOCAL qt, mAlpha, mBeta
 
     qt     = 2.3^((34-21)/10)
-    mAlpha = 3.3e-3*exp( 2.5*0.04*(v + 35))
-    mBeta  = 3.3e-3*exp(-2.5*0.04*(v + 35))
+    mAlpha = m_alpha(v)
+    mBeta  = m_beta(v)
 
-    : NB: Here the identity below does not help :/
     m'     = qt*(mAlpha - m*(mAlpha + mBeta))
 }
 
 INITIAL {
     LOCAL mAlpha, mBeta
 
-    mAlpha = 3.3e-3*exp( 2.5*0.04*(v + 35))
-    mBeta  = 3.3e-3*exp(-2.5*0.04*(v + 35))
+    mAlpha = m_alpha(v)
+    mBeta  = m_beta(v)
 
-    : NB: this is e^x/(e^x + e^-x) = 1/(1 + e^-2x), might be faster, but for one call idc :shrug:
     m = mAlpha/(mAlpha + mBeta)
+}
+
+FUNCTION m_alpha(v) {
+    mAlpha = 3.3e-3*exp( 2.5*0.04*(v + 35))
+}
+FUNCTION m_beta(v) {
+    mBeta  = 3.3e-3*exp(-2.5*0.04*(v + 35))
 }

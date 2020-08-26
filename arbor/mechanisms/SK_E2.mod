@@ -29,21 +29,17 @@ BREAKPOINT {
 }
 
 DERIVATIVE states {
-    LOCAL ca, zInf
-    ca = cai
-    if (ca < 1e-7) {
-            ca = ca + 1e-07
-    }
-    zInf =  1/(1 + (0.00043/ca)^4.8)
-
-    z' = (zInf - z)/zTau
+    z' = (z_inf(cai) - z)/zTau
 }
 
 INITIAL {
-    LOCAL ca
-    ca = cai
-    if (ca < 1e-7) {
-            ca = ca + 1e-07
+    z = z_inf(cai)
+}
+
+FUNCTION z_inf(ca) {
+    if (cai < 1e-7) {
+        z_inf = 0
+    } else {
+        z_inf =  1/(1 + (0.00043/cai)^4.8)
     }
-    z =  1/(1 + (0.00043/ca)^4.8)
 }

@@ -28,14 +28,17 @@ BREAKPOINT {
 DERIVATIVE states {
     LOCAL mInf, mRho
     
-    mInf = 1/(1 + exp((18.7 - v)/9.7))
+    mInf = m_inf(v)
     mRho = 0.25*(1 + exp((v + 46.56)/44.140))
 
     m' = (mInf - m)*mRho
 }
 
 INITIAL {
-    m = 1/(1 + exp((18.7 - v)/9.7))
+    m = m_inf(v)
 }
 
+FUNCTION m_inf(v) {
+    m_inf = 1/(1 + exp((18.7 - v)/9.7))
+}
 
