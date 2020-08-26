@@ -41,4 +41,3 @@ INITIAL {
 FUNCTION m_inf(v) {
     m_inf = 1/(1 + exp((18.7 - v)/9.7))
 }
-

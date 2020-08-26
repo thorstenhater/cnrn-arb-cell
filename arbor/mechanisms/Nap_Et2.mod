@@ -55,5 +55,3 @@ FUNCTION m_inf(v) {
 FUNCTION h_inf(v) {
     h_inf = 1.0/(1 + exp( (v + 48.8)/10))
 }
-
-

@@ -54,3 +54,4 @@ FUNCTION m_inf(v) {
 FUNCTION h_inf(v) {    
     h_inf = 1/(1 + exp( (v + 90)/6.4))
 }
+

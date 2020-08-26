@@ -50,3 +50,4 @@ FUNCTION m_alpha(v) {
 FUNCTION m_beta(v) {
     m_beta  = 0.001*193*exp(v/33.1)
 }
+

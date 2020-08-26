@@ -51,3 +51,4 @@ FUNCTION m_alpha(v) {
 FUNCTION m_beta(v) {
     m_beta  = 3.3e-3*exp(-2.5*0.04*(v + 35))
 }
+
