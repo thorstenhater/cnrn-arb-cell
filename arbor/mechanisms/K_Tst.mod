@@ -42,14 +42,14 @@ DERIVATIVE states {
     h' = qt*(hInf - h)/hTau
 }
 
-INITIAL{
+INITIAL {
     m = m_inf(v)
-    h = h_inf(v0
+    h = h_inf(v)
 }
 
 FUNCTION m_inf(v) {
    m_inf = 1/(1 + exp(-(v + 10)/19))
 }
-FUNCTION m_inf(v) {
+FUNCTION h_inf(v) {
    h_inf = 1/(1 + exp(-(v + 76)/-10))
 }

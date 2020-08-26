@@ -35,7 +35,7 @@ DERIVATIVE states {
     qt = 2.3^((34 - 21)/10)
 
     mInf = m_inf(v)
-    hINF = h_inf(v)
+    hInf = h_inf(v)
     mTau =  5 + 20/(1 + exp((v + 35)/5))  
     hTau = 20 + 50/(1 + exp((v + 50)/7))
     
@@ -51,6 +51,6 @@ INITIAL {
 FUNCTION m_inf(v) {
     m_inf = 1/(1 + exp(-(v + 40)/6.0))
 }
-FUNCTION m_inf(v) {    
+FUNCTION h_inf(v) {    
     h_inf = 1/(1 + exp( (v + 90)/6.4))
 }

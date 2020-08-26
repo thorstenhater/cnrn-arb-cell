@@ -27,7 +27,7 @@ BREAKPOINT {
 DERIVATIVE states {
     LOCAL qt, mInf, mAlpha, mBeta, mTau, hInf, hAlpha, hBeta, hTau
 
-    xqt = 2.3^((34 - 21)/10)
+    qt = 2.3^((34 - 21)/10)
 
     mInf = m_inf(v)
     mAlpha = -0.182*6*exprelr(-(v + 38)/6)

@@ -41,7 +41,7 @@ DERIVATIVE states {
 }
 
 INITIAL {
-     LOCAL mAlpha, mBeta, hAlpha, hBeta
+    LOCAL mAlpha, mBeta, hAlpha, hBeta
 							 
     mAlpha = m_alpha(v)
     mBeta  = m_beta(v)
@@ -57,13 +57,13 @@ FUNCTION m_alpha(v) {
 }
 
 FUNCTION m_beta(v) {
-    m_Beta  = -0.124*6*exprelr( (v + 38)/6)
+    m_beta = -0.124*6*exprelr( (v + 38)/6)
 }
 
 FUNCTION h_alpha(v) {
     h_alpha = -0.015*6*exprelr( (v + 66)/6)
 }
 
-FUNCTION h_beta(v)
-    h_beta  = -0.015*6*exprelr(-(v + 66)/6)
+FUNCTION h_beta(v) {
+    h_beta = -0.015*6*exprelr(-(v + 66)/6)
 }

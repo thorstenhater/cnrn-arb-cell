@@ -16,10 +16,11 @@ UNITS {
 }
 
 PARAMETER {
-   gamma  = 0.05      : percent of free calcium (not buffered)
-   decay  = 80   (ms) : rate of removal of calcium
-   depth  = 0.1  (um) : depth of shell
-   minCai = 1e-4 (mM)
+   F      = 96485.3321233100184 (coulomb/mole) : Faraday's constant
+   gamma  = 0.05                               : percent of free calcium (not buffered)
+   decay  = 80                  (ms)           : rate of removal of calcium
+   depth  = 0.1                 (um)           : depth of shell
+   minCai = 1e-4                (mM)
 }
 
 STATE {
@@ -31,5 +32,5 @@ BREAKPOINT {
 }
 
 DERIVATIVE states {
-   cai' = -10000*ica*gamma/(2*FARADAY*depth) - (cai - minCai)/decay
+   cai' = -5000*ica*gamma/(F*depth) - (cai - minCai)/decay
 }

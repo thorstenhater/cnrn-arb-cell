@@ -31,7 +31,7 @@ BREAKPOINT {
 }
 
 DERIVATIVE states {
-    LOCAL qt
+    LOCAL qt, mTau, mInf, hTau, hInf
     qt = 2.3^((34-21)/10)
   
     mInf = m_inf(v)

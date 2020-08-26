@@ -46,8 +46,8 @@ INITIAL {
 }
 
 FUNCTION m_alpha(v) {
-    mAlpha = 3.3e-3*exp( 2.5*0.04*(v + 35))
+    m_alpha = 3.3e-3*exp( 2.5*0.04*(v + 35))
 }
 FUNCTION m_beta(v) {
-    mBeta  = 3.3e-3*exp(-2.5*0.04*(v + 35))
+    m_beta  = 3.3e-3*exp(-2.5*0.04*(v + 35))
 }

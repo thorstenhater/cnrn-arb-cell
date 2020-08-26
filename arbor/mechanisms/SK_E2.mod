@@ -37,9 +37,9 @@ INITIAL {
 }
 
 FUNCTION z_inf(ca) {
-    if (cai < 1e-7) {
+    if (ca < 1e-7) {
         z_inf = 0
     } else {
-        z_inf =  1/(1 + (0.00043/cai)^4.8)
+        z_inf =  1/(1 + (0.00043/ca)^4.8)
     }
 }
